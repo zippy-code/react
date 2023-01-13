@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from "react"; // React 라이브러리에서 React 를 가져오고, Component 클래스도 가져온다
+import "./App.css"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component { // App 클래스에서 React 에서 제공하는 Component 클래스를 사용하도록 확장.
+  btnSytle = {
+    color: "#fff",
+    border:  "none",
+    padding: "5px 9px",
+    borderRadius: "50%",
+    cursor: "pointer",
+    float: "right"
+  }
+  
+  // 동적으로 변화해야 하는 부분은 함수로 만든다.
+  getStyle = () => {
+    return {
+      padding: "10px",
+      borderBottom: "1px #ccc dotted",
+      TextDecoration: "none"
+    }
+  }
+
+  render() { // component 클래스 안에 있는 render 함수. 함수형 프로그래밍에서는 render() 함수 사용하지 않아도 된다.
+    return (// jsx 문법은 class="" 가 아니라 classname="" 이다.
+      <div className="container">
+        <div className="todoBlock">
+          <div className="title">
+            <h1>할 일 목록</h1>
+          </div>
+          <div style={this.getStyle()}>
+            <input type="checkbox" defaultChecked={false} />
+            공부하기
+            <button style={this.btnSytle}>x</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
-
-export default App;
