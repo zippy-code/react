@@ -12,19 +12,17 @@ export default class App extends Component { // App 클래스에서 React 에서
   }
 
   state = {
-    todoData : [
-    ],
-
+    todoData : [],
     value: "",
   };
 
   // 동적으로 변화해야 하는 부분은 함수로 만든다.
-  getStyle = () => {
+  getStyle = (completed) => {
     return (
       {
         padding: "10px",
         borderBottom: "1px #ccc dotted",
-        TextDecoration: "none"
+        textDecoration: completed ? "line-through":"none",
       }
     )
   } 
@@ -51,7 +49,20 @@ export default class App extends Component { // App 클래스에서 React 에서
 
     // 원래 있던 할 일에 새로운 할 일 더해주기 ...은 전개 연산자.
     // 전개 연산자는 특정 객체 또는 배열의 값을 다른 객체, 배열로 복제하거나 옮길 때 사용한다.
-    this.setState({todoData: [...this.state.todoData, newTodo]});
+    // 값 입력 후 입력한 내용을 지우기 위해 value: "" 해준다. 
+    this.setState({todoData: [...this.state.todoData, newTodo], value: ""});
+  } 
+
+  handleComplateChange = (id) => {
+    let newTodoData = this.state.todoData.map(data => {
+      if (data.id === id) {
+        data.completed = !data.completed;
+      }
+
+      return data;
+    })
+
+    this.setState({todoData: newTodoData});
   } 
 
   render() { // component 클래스 안에 있는 render 함수. 함수형 프로그래밍에서는 render() 함수 사용하지 않아도 된다.
@@ -63,10 +74,19 @@ export default class App extends Component { // App 클래스에서 React 에서
           </div>
           {this.state.todoData.map((data) => {
             return ( // key 속성이 있어야 warning이 발생하지 않는다.
-              <div style={this.getStyle()} key={data.id}> 
-                <input type="checkbox" defaultChecked={false} />
+              <div 
+              style={this.getStyle(data.completed)} 
+              key={data.id}> 
+                <input 
+                type="checkbox"
+                onChange={() => this.handleComplateChange(data.id)} 
+                defaultChecked={false} />{" "}
                 {data.title}
-                <button style={this.btnSytle} onClick = {() => this.handleClick(data.id)}>x</button>
+                <button 
+                style={this.btnSytle} 
+                onClick = {() => this.handleClick(data.id)}>
+                  x
+                </button>
               </div>  
             )
             })}
