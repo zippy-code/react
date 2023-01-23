@@ -20,7 +20,7 @@ export default class App extends Component { // App 클래스에서 React 에서
         TextDecoration: "none"
       }
     )
-  }
+  } 
 
   todoData = [
     {
@@ -35,7 +35,10 @@ export default class App extends Component { // App 클래스에서 React 에서
     }
   ]
  
-
+  handleClick = (id) => {
+      let newTodoData = this.todoData.filter(data => data.id != id);
+      console.log('newTodoData', newTodoData);
+  }
 
   render() { // component 클래스 안에 있는 render 함수. 함수형 프로그래밍에서는 render() 함수 사용하지 않아도 된다.
     return (// jsx 문법은 class="" 가 아니라 classname="" 이다.
@@ -45,11 +48,11 @@ export default class App extends Component { // App 클래스에서 React 에서
             <h1>할 일 목록</h1>
           </div>
           {this.todoData.map((data) => {
-            return (
-              <div style={this.getStyle()} key={data.id}>
+            return ( // key 속성이 있어야 warning이 발생하지 않는다.
+              <div style={this.getStyle()} key={data.id}> 
                 <input type="checkbox" defaultChecked={false} />
                 {data.title}
-                <button style={this.btnSytle}>x</button>
+                <button style={this.btnSytle} onClick = {() => this.handleClick(data.id)}>x</button>
               </div>  
             )
             })}
